@@ -1,5 +1,7 @@
 from src.config import TEMA
 
+from src.persistencia.texto import cargar_csv 
+
 TEMAS = {
     "pokedex": "Pokédex",
     "recetario": "Recetario",
@@ -26,6 +28,25 @@ def mostrar_menu():
     print("9. Guardar / cargar archivos")
     print("0. Salir")
 
+def listar_catalogo():
+    canciones = cargar_csv("data/canciones.csv")
+
+    print()
+    print("=== Catálogo musical ===")
+
+    for cancion in canciones:
+        print(
+            f"{cancion['id']} - "
+            f"{cancion['titulo']} - "
+            f"{cancion['artista']} - "
+            f"{cancion['album']} - "
+            f"{cancion['genero']} - "
+            f"{cancion['anio']} - "
+            f"{cancion['duracion_seg']} segundos"
+        )
+
+    print()
+    print(f"Total de canciones: {len(canciones)}")
 
 def main():
     if TEMA not in TEMAS:
@@ -38,7 +59,9 @@ def main():
         opcion = input("> ").strip()
         if opcion == "0":
             print("Chau.")
-        elif opcion in {"1", "2", "3", "4", "5", "6", "7", "8", "9"}:
+        elif opcion == "1":
+            listar_catalogo()
+        elif opcion in {"2", "3", "4", "5", "6", "7", "8", "9"}:
             pendiente()
         else:
             print("Opción inválida.")
