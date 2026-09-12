@@ -5,12 +5,11 @@ Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src
 ## Integrantes
 
 | Nombre | Mail | GitHub |
-| --- | --- | --- |
-|  |  |  |
-|  |  |  |
-|  |  |  |
+| Malena Martinez | malenaxmtz@gmail.com | github.com/malenaxmtz |
+| Camila Rondon | rondoncordova321@gmail.com | github.com/CamiRondon |
+| Juan Pablo Villalba | juanpablovba@gmail.com | github.com/juanpablovba |
 
-**Tema elegido:** Pokédex / Recetario / Biblioteca musical (dejar uno)
+**Tema elegido:** Biblioteca musical 
 
 ## Cómo ejecutar
 

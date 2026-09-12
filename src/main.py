@@ -1,6 +1,6 @@
 from src.config import TEMA
 
-from src.persistencia.texto import cargar_csv 
+from src.dominio.canciones import listar_catalogo
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -27,26 +27,6 @@ def mostrar_menu():
     print("8. Cola")
     print("9. Guardar / cargar archivos")
     print("0. Salir")
-
-def listar_catalogo():
-    canciones = cargar_csv("data/canciones.csv")
-
-    print()
-    print("=== Catálogo musical ===")
-
-    for cancion in canciones:
-        print(
-            f"{cancion['id']} - "
-            f"{cancion['titulo']} - "
-            f"{cancion['artista']} - "
-            f"{cancion['album']} - "
-            f"{cancion['genero']} - "
-            f"{cancion['anio']} - "
-            f"{cancion['duracion_seg']} segundos"
-        )
-
-    print()
-    print(f"Total de canciones: {len(canciones)}")
 
 def main():
     if TEMA not in TEMAS:
