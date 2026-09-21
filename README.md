@@ -3,6 +3,7 @@
 ## Integrantes
 
 | Nombre              | Mail                       | GitHub                  |
+| ---                 | ---                        | ---                     | 
 | Malena Martinez     | malenaxmtz@gmail.com       | github.com/malenaxmtz   |
 | Camila Rondon       | rondoncordova321@gmail.com | github.com/CamiRondon   |
 | Juan Pablo Villalba | juanpablovba@gmail.com     | github.com/juanpablovba |
