@@ -1,6 +1,8 @@
-from src.config import TEMA
+from pathlib import Path
 
+from src.config import TEMA
 from src.dominio.canciones import listar_catalogo
+from src.dominio.versiones import cargar_catalogo_musical
 
 TEMAS = {
     "pokedex": "Pokédex",
@@ -34,6 +36,14 @@ def main():
         return
 
     opcion = None
+
+    raiz = Path(__file__).resolve().parent.parent
+
+    catalogo = cargar_catalogo_musical(
+        raiz / "data" / "canciones.csv",
+        raiz / "data" / "versiones.csv"
+    )
+
     while opcion != "0":
         mostrar_menu()
         opcion = input("> ").strip()
@@ -41,7 +51,26 @@ def main():
             print("Chau.")
         elif opcion == "1":
             listar_catalogo()
-        elif opcion in {"2", "3", "4", "5", "6", "7", "8", "9"}:
+        elif opcion == "5":
+            cancion_id = input("Ingrese el ID de la canción: ").strip()
+
+            if not cancion_id.isdigit():
+                print("ID inválido. Debe ser un número.")
+                continue
+
+            cancion = catalogo.obtener_cancion(cancion_id)
+
+            if cancion is None:
+                print(f"No se encontró la canción con ID {cancion_id}.")
+                continue
+
+            print(f"Versiones derivadas de '{cancion.titulo}':")
+            derivadas = catalogo.listar_versiones(cancion_id)
+            if not derivadas:
+                print("No hay versiones derivadas.")
+
+                
+        elif opcion in {"2", "3", "4", "6", "7", "8", "9"}:
             pendiente()
         else:
             print("Opción inválida.")
@@ -49,3 +78,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

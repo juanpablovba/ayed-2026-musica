@@ -18,10 +18,30 @@ Aún no está decidido con certeza la mutabilidad/inmutabilidad de los objetos.
 
 ## 3. Recursión (E2)
 
-- Función:
-- Caso base:
-- Caso recursivo:
-- Traza de un ejemplo real del dataset:
+Traza de un ejemplo real:
+
+Llamada inicial: listar_versiones(1,0)
+
+La canción con ID 1 es "De Musica Ligera"
+Se buscar el ID 1 en versiones_por_origen
+Se encuentra una versión:
+    - cancion_id = 61
+    - version_de_id = 1
+    - tipo: live
+Se muestra:
+    - De Musica Ligera (Unplugged) | Soda Stereo | live
+
+Se realiza la llamada recursiva: listar_versiones(61, 1)
+La canción con ID 62 no tiene versiones derivadas.
+-versiones- es una lista vacía.
+
+Se cumple el caso base:
+if nor versiones:
+    return []
+
+La llamada listar_versiones(62, 1) devuelve [].
+
+La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuelve una lista con esa canción.
 
 ## 4. TADs (E3)
 
