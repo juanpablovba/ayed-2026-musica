@@ -1,13 +1,11 @@
 # TP integrador — AyED C2 2026
 
-Repositorio del grupo. Partir de este esqueleto. No borrar la estructura de `src/` ni de `docs/`.
-
 ## Integrantes
 
-| Nombre | Mail | GitHub |
-| Malena Martinez | malenaxmtz@gmail.com | github.com/malenaxmtz |
-| Camila Rondon | rondoncordova321@gmail.com | github.com/CamiRondon |
-| Juan Pablo Villalba | juanpablovba@gmail.com | github.com/juanpablovba |
+| Nombre              | Mail                       | GitHub                  |
+| Malena Martinez     | malenaxmtz@gmail.com       | github.com/malenaxmtz   |
+| Camila Rondon       | rondoncordova321@gmail.com | github.com/CamiRondon   |
+| Juan Pablo Villalba | juanpablovba@gmail.com     | github.com/juanpablovba |
 
 **Tema elegido:** Biblioteca musical 
 
