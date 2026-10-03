@@ -47,11 +47,14 @@ La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuel
 
 | TAD | Operaciones | Invariante |
 | --- | --- | --- |
-| ListaEnlazada |  |  |
-| Pila |  |  |
-| Cola |  |  |
+| ListaEnlazada | `esta_vacia`, `tamanio`, `insertar_al_inicio`, `insertar_al_final`, `insertar_ordenado`, `eliminar`, `buscar`, `__iter__` | `_cabeza` apunta al primer nodo o es `None` si la lista está vacía. `_tamanio` coincide con la cantidad de nodos alcanzables desde `_cabeza`. |
+| Pila | `apilar`, `desapilar`, `ver_tope`, `esta_vacia` | La pila usa una `ListaEnlazada`. El tope siempre está en la cabeza de la lista, por lo que se respeta el orden LIFO. |
+| Cola | `encolar`, `desencolar`, `ver_frente`, `esta_vacia` | La cola usa una `ListaEnlazada`. El frente siempre está en la cabeza; los nuevos elementos se agregan al final, por lo que se respeta el orden FIFO. |
 
-Dónde se usa cada uno en el dominio.
+- `ListaEnlazada` se usa internamente en `Playlist` para guardar canciones.
+- `Pila` se usa en `HistorialReproduccion`: cada canción escuchada se apila y la última puede deshacerse primero.
+- `Cola` se usa en `ColaReproduccion`: las canciones se agregan al final y se reproducen en el mismo orden en que fueron encoladas.
+- La `Playlist` tiene un tope máximo de seis canciones. Al intentar superar ese límite, lanza `ColeccionLlenaError`.
 
 ## 5. Complejidad (E4)
 

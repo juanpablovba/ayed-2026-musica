@@ -8,6 +8,7 @@ class Version:
         self.tipo = tipo
 
 class CatalogoMusical:
+    """Agrupa canciones y sus relaciones de versiones derivadas."""
     def __init__(self, canciones, versiones):
         self.canciones_por_id = {cancion.id: cancion for cancion in canciones}
         self.versiones_por_origen = {}
@@ -18,9 +19,11 @@ class CatalogoMusical:
             self.versiones_por_origen[version.version_de_id].append(version)
 
     def obtener_cancion(self, cancion_id):
+        """Devuelve una canción por su ID, o None si no existe."""
         return self.canciones_por_id.get(cancion_id)
 
     def listar_versiones (self, cancion_id):
+        """Muestra y devuelve las versiones derivadas de una canción."""
         versiones = self.versiones_por_origen.get(cancion_id, [])
 
         if not versiones:
@@ -37,6 +40,7 @@ class CatalogoMusical:
         return derivadas
 
 def cargar_catalogo_musical(ruta_canciones, ruta_versiones):
+    """Carga canciones y versiones desde CSV y crea el catálogo musical."""
     filas_canciones = cargar_csv(ruta_canciones)
     filas_versiones = cargar_csv(ruta_versiones)
 

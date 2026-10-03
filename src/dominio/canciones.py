@@ -1,5 +1,8 @@
 class Cancion:
+    """Representa una canción del catálogo musical."""
+
     def __init__(self, id, titulo, artista, album, genero, anio, duracion_seg):
+        """Crea una canción con sus detalles multimedia."""
         self.id = id
         self.titulo = titulo
         self.artista = artista
@@ -20,5 +23,6 @@ catalogo = [
 ]
 
 def listar_catalogo():
+    """Muestra las canciones del catálogo."""
     for cancion in catalogo:
         print(cancion)
