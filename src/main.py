@@ -1,4 +1,6 @@
 from pathlib import Path
+from src.algoritmos.busqueda import busqueda_binaria, busqueda_lineal
+from src.algoritmos.ordenamiento import ordenar_insercion, ordenar_seleccion
 from src.config import TEMA
 from src.dominio.canciones import listar_catalogo
 from src.dominio.cola_reproduccion import ColaReproduccion
@@ -42,6 +44,78 @@ def obtener_cancion(catalogo):
     if cancion is None:
         print(f"No se encontró la canción con ID {cancion_id}.")
     return cancion
+
+def clave_titulo(cancion):
+    return cancion.titulo.casefold()
+
+CRITERIOS_ORDEN = {
+    "1": ("título", clave_titulo),
+    "2": ("artista", lambda cancion: cancion.artista.casefold()),
+    "3": ("año", lambda cancion: int(cancion.anio)),
+    "4": ("duración", lambda cancion: int(cancion.duracion)),
+}
+
+
+def menu_buscar(canciones, orden_actual):
+    print()
+    print("--- Buscar por título ---")
+    print("1. Búsqueda lineal")
+    print("2. Búsqueda binaria")
+    print("0. Volver")
+    opcion = input("> ").strip()
+    if opcion not in {"1", "2"}:
+        if opcion != "0":
+            print("Opción inválida.")
+        return canciones, orden_actual
+
+    titulo = input("Ingrese el título: ").strip().casefold()
+    if opcion == "1":
+        cancion = busqueda_lineal(canciones, titulo, clave_titulo)
+    else:
+        if orden_actual != "título":
+            canciones = ordenar_insercion(canciones, clave_titulo)
+            orden_actual = "título"
+            print("El catálogo no estaba ordenado por título: se ordenó para usar búsqueda binaria.")
+        cancion = busqueda_binaria(canciones, titulo, clave_titulo)
+
+    if cancion is None:
+        print("No se encontró ninguna canción con ese título.")
+    else:
+        print(cancion)
+    return canciones, orden_actual
+
+def mostrar_canciones(canciones, limite=10):
+    for cancion in canciones[:limite]:
+        print(cancion)
+    if len(canciones) > limite:
+        print(f"... (se muestran {limite} de {len(canciones)})")
+
+
+def menu_ordenar(canciones, orden_actual):
+    print()
+    print("--- Ordenar catálogo ---")
+    print("Ordenar por: 1) Título  2) Artista  3) Año  4) Duración  0) Volver")
+    criterio = input("> ").strip()
+    if criterio == "0":
+        return canciones, orden_actual
+    if criterio not in CRITERIOS_ORDEN:
+        print("Opción inválida.")
+        return canciones, orden_actual
+
+    print("Algoritmo: 1) Selección  2) Inserción")
+    algoritmo = input("> ").strip()
+    if algoritmo not in {"1", "2"}:
+        print("Opción inválida.")
+        return canciones, orden_actual
+
+    nombre, clave = CRITERIOS_ORDEN[criterio]
+    if algoritmo == "1":
+        canciones = ordenar_seleccion(canciones, clave)
+    else:
+        canciones = ordenar_insercion(canciones, clave)
+    print(f"Catálogo ordenado por {nombre}.")
+    mostrar_canciones(canciones)
+    return canciones, nombre
 
 def menu_playlist(playlist, catalogo):
     """Gestiona las opciones de la playlist."""
@@ -152,6 +226,8 @@ def main():
     playlist = Playlist()
     historial = HistorialReproduccion()
     cola = ColaReproduccion()
+    canciones = list(catalogo.canciones_por_id.values())
+    orden_actual = None
 
     opcion = None
 
@@ -166,6 +242,12 @@ def main():
             print(f"Catálogo de canciones")
             listar_catalogo()
 
+        elif opcion == "3":
+            canciones, orden_actual = menu_buscar(canciones, orden_actual)
+
+        elif opcion == "4":
+            canciones, orden_actual = menu_ordenar(canciones, orden_actual)
+        
         elif opcion == "5":
             cancion = obtener_cancion(catalogo)
             if cancion is None:
@@ -184,7 +266,7 @@ def main():
         elif opcion == "8":
             menu_cola(cola, historial, catalogo)
 
-        elif opcion in {"2", "3", "4", "9"}:
+        elif opcion in {"2", "9"}:
             pendiente()
 
         else:
