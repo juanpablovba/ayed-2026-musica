@@ -60,13 +60,28 @@ La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuel
 
 | Operación | Tiempo | Espacio | Por qué |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| Listar catálogo | O(n) | O(1) | Recorre las n canciones una vez. |
+| Ver detalle por ID | O(1) | O(1) | Acceso directo al diccionario por id. |
+| Búsqueda lineal | O(n) | O(1) | Compara de a una; en el peor caso mira todas. |
+| Búsqueda binaria | O(log n) | O(1) | Cada paso descarta la mitad (requiere lista ordenada). |
+| Ordenar por selección | O(n²) | O(n) | Dos bucles anidados, siempre ~n²/2 comparaciones. Trabaja sobre una copia. |
+| Ordenar por inserción | O(n) mejor / O(n²) peor | O(n) | Si ya está ordenada compara una vez por elemento; si está al revés, desplaza todo. Trabaja sobre una copia. |
 
-Mediciones (`time.perf_counter`):
+Mediciones (`time.perf_counter`), con el dataset original y una copia agrandada (se repiten las filas). Las búsquedas se miden en el peor caso.
 
 | Operación | n | segundos |
 | --- | --- | --- |
-|  |  |  |
+| búsqueda lineal | 67 | 0.000021 |
+| búsqueda lineal | 3350 | 0.001148 |
+| búsqueda binaria | 67 | 0.000003 |
+| búsqueda binaria | 3350 | 0.000005 |
+| ordenar por selección | 67 | 0.001894 |
+| ordenar por selección | 3350 | 2.635739 |
+| ordenar por inserción | 67 | 0.000728 |
+| ordenar por inserción | 3350 | 1.587905 |
+
+Con 50 veces más canciones, la búsqueda lineal tarda unas 55 veces más (crece como n), la binaria casi no cambia (log n) y los ordenamientos tardan miles de veces más (n²).
+
 
 ## 6. Persistencia (E5)
 
