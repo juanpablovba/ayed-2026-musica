@@ -16,8 +16,8 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 | P06 | E2 | Elegir opción 5 e ingresar ID existente sin versiones | id = 2 | Se imprime que la canción no tiene versiones derivadas | pasa | caso base |
 | P07 | E2 | Elegir opción 5 e ingresar ID no existente | id = 500 | Se imprime que no existe una canción con ese ID y vuelve al menú | pasa | |
 | P08 | E2 | Elegir opción 5 e ingresar texto en lugar de un ID numérico | id = hola | Se imprime que el ID tiene que ser un número y vuelve al menú | pasa | 
-| P09 | E2 | Elegir opción 5 e ingresar ID existente de una versión sin derivaciones | id = 62 | no corrido | | 
-| P10 | E2 | Elegir opción 5 e ingresar ID existente con una versión de live distinta | id = 32 | no corrido | | 
+| P09 | E2 | Elegir opción 5 e ingresar ID existente de una versión sin derivaciones | id = 62 | se imprime que no hay versiones derivadas y vuelve al menú | pasa | 
+| P10 | E2 | Elegir opción 5 e ingresar ID existente con una versión de live distinta | id = 32 | Se lista Bohemian Rhapsody como versión live | pasa | 
 | P11 | E3 | Agregar a la colección principal hasta el tope | agregar más de 6 IDs de canciones | el séptimo falla con excepción propia | pasa |  |
 | P12 | E3 | Desapilar historial vacío | pila vacía | excepción propia, menú sigue | pasa |  |
 | P13 | E3 | Desencolar cola vacía | cola vacía | excepción propia, menú sigue | pasa |  |
