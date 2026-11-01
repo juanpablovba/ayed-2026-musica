@@ -1,6 +1,7 @@
+# Entrega 4
+
 import time
 from pathlib import Path
-
 from src.algoritmos.busqueda import busqueda_binaria, busqueda_lineal
 from src.algoritmos.ordenamiento import ordenar_insercion, ordenar_seleccion
 from src.dominio.versiones import cargar_catalogo_musical
@@ -36,18 +37,18 @@ def main():
         n = len(datos)
         ordenados = ordenar_insercion(datos, clave_titulo)
 
-        t = medir(lambda: busqueda_lineal(datos, TITULO_INEXISTENTE, clave_titulo), 2000)
-        print(f"| búsqueda lineal (peor caso) | {n} | {t:.6f} |")
-        t = medir(lambda: busqueda_binaria(ordenados, TITULO_INEXISTENTE, clave_titulo), 2000)
-        print(f"| búsqueda binaria (peor caso) | {n} | {t:.6f} |")
+        tiempo = medir(lambda: busqueda_lineal(datos, TITULO_INEXISTENTE, clave_titulo), 2000)
+        print(f"| búsqueda lineal (peor caso) | {n} | {tiempo:.6f} |")
+        tiempo = medir(lambda: busqueda_binaria(ordenados, TITULO_INEXISTENTE, clave_titulo), 2000)
+        print(f"| búsqueda binaria (peor caso) | {n} | {tiempo:.6f} |")
 
-        reps = 20 if n < 1000 else 1
-        t = medir(lambda: ordenar_seleccion(datos, clave_titulo), reps)
-        print(f"| ordenar por selección | {n} | {t:.6f} |")
-        t = medir(lambda: ordenar_insercion(datos, clave_titulo), reps)
-        print(f"| ordenar por inserción (desordenada) | {n} | {t:.6f} |")
-        t = medir(lambda: ordenar_insercion(ordenados, clave_titulo), reps)
-        print(f"| ordenar por inserción (ya ordenada) | {n} | {t:.6f} |")
+        repeticiones = 20 if n < 1000 else 1
+        tiempo = medir(lambda: ordenar_seleccion(datos, clave_titulo), repeticiones)
+        print(f"| ordenar por selección | {n} | {tiempo:.6f} |")
+        tiempo = medir(lambda: ordenar_insercion(datos, clave_titulo), repeticiones)
+        print(f"| ordenar por inserción (desordenada) | {n} | {tiempo:.6f} |")
+        tiempo = medir(lambda: ordenar_insercion(ordenados, clave_titulo), repeticiones)
+        print(f"| ordenar por inserción (ya ordenada) | {n} | {tiempo:.6f} |")
 
 
 if __name__ == "__main__":

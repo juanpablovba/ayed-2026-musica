@@ -1,3 +1,5 @@
+# Entrega 4
+
 def busqueda_lineal(coleccion, clave, obtener_clave):
     """Devuelve el ítem cuya clave coincide, o None."""
     for elemento in coleccion:

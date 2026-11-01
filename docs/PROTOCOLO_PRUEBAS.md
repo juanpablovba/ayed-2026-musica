@@ -8,8 +8,8 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 
 | ID | Entrega | Acción (pasos en el CLI) | Datos | Resultado esperado | Resultado | Notas |
 | --- | --- | --- | --- | --- | --- | --- |
-| P01 | E1 | Arrancar el programa y listar catálogo | dataset de la cátedra | lista no vacía, sin traceback |  |  |
-| P02 | E1 | Elegir un ítem inexistente | id = -1 | mensaje claro, el menú sigue |  |  |
+| P01 | E1 | Arrancar el programa y listar catálogo | dataset de prueba | lista no vacía, sin traceback | pasa |  |
+| P02 | E1 | Elegir un ítem inexistente | id = -1 | mensaje claro, el menú sigue | Arroja el mensaje: opción invalida y lista el menú otra vez | pasa
 | P03 | E2 | Elegir opción 5 e ingresar ID existente con versión live | id = 1 | Se lista De Musica Ligera como versión live | pasa |  |
 | P04 | E2 | Elegir opción 5 e ingresar ID existente con versión cover | id = 31 | Se lista Black Space como versión cover | pasa |  |
 | P05 | E2 | Elegir opción 5 e ingresar ID existente con versión remix | id = 51 | Se lista Billie Jean como versión remix | pasa | | 

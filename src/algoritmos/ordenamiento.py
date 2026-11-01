@@ -1,3 +1,5 @@
+# Entrega 4
+
 def ordenar_seleccion(coleccion, clave):
     """Ordenamiento por selección. Devuelve una nueva secuencia, no usa sorted."""
     resultado = list(coleccion)

@@ -20,26 +20,27 @@ Aún no está decidido con certeza la mutabilidad/inmutabilidad de los objetos.
 
 Traza de un ejemplo real:
 
-Llamada inicial: listar_versiones(1,0)
-
+Llamada inicial: listar_versiones(1)
 La canción con ID 1 es "De Musica Ligera"
+
 Se buscar el ID 1 en versiones_por_origen
 Se encuentra una versión:
-    - cancion_id = 61
-    - version_de_id = 1
-    - tipo: live
+    - cancion_id = "62"
+    - version_de_id = "1"
+    - tipo: "live"
+
 Se muestra:
     - De Musica Ligera (Unplugged) | Soda Stereo | live
 
-Se realiza la llamada recursiva: listar_versiones(61, 1)
+Se realiza la llamada recursiva: listar_versiones(62)
 La canción con ID 62 no tiene versiones derivadas.
 -versiones- es una lista vacía.
 
 Se cumple el caso base:
-if nor versiones:
+if not versiones:
     return []
 
-La llamada listar_versiones(62, 1) devuelve [].
+La llamada listar_versiones(62) devuelve [].
 
 La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuelve una lista con esa canción.
 
@@ -67,7 +68,7 @@ La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuel
 | Ordenar por selección | O(n²) | O(n) | Dos bucles anidados, siempre ~n²/2 comparaciones. Trabaja sobre una copia. |
 | Ordenar por inserción | O(n) mejor / O(n²) peor | O(n) | Si ya está ordenada compara una vez por elemento; si está al revés, desplaza todo. Trabaja sobre una copia. |
 
-Mediciones (`time.perf_counter`), con el dataset original y una copia agrandada (se repiten las filas). Las búsquedas se miden en el peor caso.
+Mediciones (`time.perf_counter`), con el dataset original y una copia agrandada (se repiten las filas). Las búsquedas se miden en el peor caso - Entrega 4
 
 | Operación | n | segundos |
 | --- | --- | --- |
