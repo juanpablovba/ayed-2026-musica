@@ -1,3 +1,4 @@
+from src.persistencia.texto import guardar_csv
 from pathlib import Path
 from src.algoritmos.busqueda import busqueda_binaria, busqueda_lineal
 from src.algoritmos.ordenamiento import ordenar_insercion, ordenar_seleccion
@@ -7,13 +8,15 @@ from src.dominio.cola_reproduccion import ColaReproduccion
 from src.dominio.historial_reproduccion import HistorialReproduccion
 from src.dominio.playlist import Playlist
 from src.dominio.versiones import cargar_catalogo_musical
-from src.excepciones import ColeccionLlenaError, ColaVaciaError, PilaVaciaError
+from src.excepciones import ArchivoInvalidoError, ColeccionLlenaError, ColaVaciaError, PilaVaciaError
 
 TEMAS = {
     "pokedex": "Pokédex",
     "recetario": "Recetario",
     "musica": "Biblioteca musical",
 }
+
+ENCABEZADOS = ["id", "titulo", "artista", "album", "genero", "anio", "duracion_seg"]
 
 def pendiente():
     print("Todavía no está implementado. Completar en la entrega que corresponde.")
@@ -213,12 +216,50 @@ def menu_cola(cola, historial, catalogo):
         else:
             print("Opción inválida.")
 
+def filas_del_catalogo(catalogo):
+    filas = []
+    for cancion in catalogo.canciones_por_id.values():
+        filas.append({
+            "id": cancion.id,
+            "titulo": cancion.titulo,
+            "artista": cancion.artista,
+            "album": cancion.album,
+            "genero": cancion.genero,
+            "anio": cancion.anio,
+            "duracion_seg": cancion.duracion,
+        })
+    return filas
+
+def menu_archivos(catalogo, ruta_txt, ruta_versiones):
+    print()
+    print("--- Guardar / cargar archivos ---")
+    print("a) Guardar catálogo en .txt")
+    print("b) Cargar catálogo desde .txt")
+    print("0) Volver")
+    sub = input("> ").strip().lower()
+    try:
+        if sub == "a":
+            guardar_csv(ruta_txt, filas_del_catalogo(catalogo), ENCABEZADOS)
+            print("Catálogo guardado en data/catalogo.txt.")
+        elif sub == "b":
+            if not ruta_txt.exists():
+                raise ArchivoInvalidoError("Todavía no hay un catálogo guardado en .txt.")
+            catalogo = cargar_catalogo_musical(ruta_txt, ruta_versiones)
+            print(f"Catálogo cargado: {len(catalogo.canciones_por_id)} canciones.")
+        elif sub != "0":
+            print("Opción inválida.")
+    except ArchivoInvalidoError as error:
+        print(f"Archivo inválido: {error}")
+    return catalogo
+
 def main():
     if TEMA not in TEMAS:
         print("Seteá TEMA en src/config.py: 'pokedex', 'recetario' o 'musica'.")
         return
     
     raiz = Path(__file__).resolve().parent.parent
+    ruta_txt = raiz / "data" / "catalogo.txt"
+    ruta_versiones = raiz / "data" / "versiones.csv"
     catalogo = cargar_catalogo_musical(
         raiz / "data" / "canciones.csv",
         raiz / "data" / "versiones.csv"
@@ -266,7 +307,12 @@ def main():
         elif opcion == "8":
             menu_cola(cola, historial, catalogo)
 
-        elif opcion in {"2", "9"}:
+        elif opcion == "9":
+            catalogo = menu_archivos(catalogo, ruta_txt, ruta_versiones)
+            canciones= list(catalogo.canciones_por_id.values())
+            orden_actual = None
+
+        elif opcion == "2":
             pendiente()
 
         else:
