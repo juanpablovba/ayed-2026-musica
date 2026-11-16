@@ -7,7 +7,8 @@ from src.dominio.canciones import listar_catalogo
 from src.dominio.cola_reproduccion import ColaReproduccion
 from src.dominio.historial_reproduccion import HistorialReproduccion
 from src.dominio.playlist import Playlist
-from src.dominio.versiones import cargar_catalogo_musical
+from src.dominio.versiones import CatalogoMusical, cargar_catalogo_musical
+from src.persistencia.binario import cargar_binario, guardar_binario
 from src.excepciones import ArchivoInvalidoError, ColeccionLlenaError, ColaVaciaError, PilaVaciaError
 
 TEMAS = {
@@ -230,11 +231,13 @@ def filas_del_catalogo(catalogo):
         })
     return filas
 
-def menu_archivos(catalogo, ruta_txt, ruta_versiones):
+def menu_archivos(catalogo, ruta_txt, ruta_bin, ruta_versiones):
     print()
     print("--- Guardar / cargar archivos ---")
     print("a) Guardar catálogo en .txt")
     print("b) Cargar catálogo desde .txt")
+    print("c) Guardar catálogo en binario (.bin)")
+    print("d) Cargar catálogo desde binario (.bin)")
     print("0) Volver")
     sub = input("> ").strip().lower()
     try:
@@ -246,6 +249,15 @@ def menu_archivos(catalogo, ruta_txt, ruta_versiones):
                 raise ArchivoInvalidoError("Todavía no hay un catálogo guardado en .txt.")
             catalogo = cargar_catalogo_musical(ruta_txt, ruta_versiones)
             print(f"Catálogo cargado: {len(catalogo.canciones_por_id)} canciones.")
+        elif sub == "c":
+            guardar_binario(ruta_bin, catalogo.canciones_por_id.values())
+            print("Catálogo guardado en data/catalogo.bin.")
+        elif sub == "d":
+            canciones = cargar_binario(ruta_bin)
+            nuevo = CatalogoMusical(canciones, [])
+            nuevo.versiones_por_origen = catalogo.versiones_por_origen
+            catalogo = nuevo
+            print(f"Catálogo cargado desde .bin: {len(catalogo.canciones_por_id)} canciones.")
         elif sub != "0":
             print("Opción inválida.")
     except ArchivoInvalidoError as error:
@@ -260,6 +272,7 @@ def main():
     raiz = Path(__file__).resolve().parent.parent
     ruta_txt = raiz / "data" / "catalogo.txt"
     ruta_versiones = raiz / "data" / "versiones.csv"
+    ruta_bin = raiz / "data" / "catalogo.bin"
     catalogo = cargar_catalogo_musical(
         raiz / "data" / "canciones.csv",
         raiz / "data" / "versiones.csv"
@@ -308,7 +321,7 @@ def main():
             menu_cola(cola, historial, catalogo)
 
         elif opcion == "9":
-            catalogo = menu_archivos(catalogo, ruta_txt, ruta_versiones)
+            catalogo = menu_archivos(catalogo, ruta_txt, ruta_bin, ruta_versiones)
             canciones= list(catalogo.canciones_por_id.values())
             orden_actual = None
 

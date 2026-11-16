@@ -88,5 +88,11 @@ def cargar_binario(ruta):
 
 def actualizar_registro(ruta, posicion, item):
     """Pisa un registro por posición (acceso directo). posicion es 0-based."""
-    raise NotImplementedError
+    with open(ruta, "r+b") as archivo:
+        cabecera = archivo.read(HEADER.size)
+        cantidad = HEADER.unpack(cabecera)[2]
+        if posicion < 0 or posicion >= cantidad:
+            raise ArchivoInvalidoError("Posición fuera del archivo.")
+        archivo.seek(HEADER.size + posicion * FORMATO.size)
+        archivo.write(FORMATO.pack(*_cancion_a_tupla(item)))
 
