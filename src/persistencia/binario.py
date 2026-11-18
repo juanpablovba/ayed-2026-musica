@@ -1,29 +1,8 @@
-"""Registros de longitud fija con struct.
-
-Layout sugerido (documentar el definitivo en docs/INFORME.md):
-
-Header:
-  magia     4s   b'AYED'
-  tema      1s   b'P' | b'R' | b'M'
-  cantidad  I    unsigned int
-
-El registro depende del tema. Ejemplo Pokédex:
-  id          I
-  nombre     20s
-  tipo1      12s
-  tipo2      12s
-  hp          H
-  ataque      H
-  defensa     H
-  velocidad   H
-  generacion  H
-"""
-
 import struct
-
 from pathlib import Path
 from src.dominio.canciones import Cancion
 from src.excepciones import ArchivoInvalidoError
+from src.tads.lista_enlazada import ListaEnlazada
 
 HEADER = struct.Struct("<4s 1s I")
 FORMATO = struct.Struct("<I 40s 40s 40s 15s 2H")
@@ -49,21 +28,26 @@ def _cancion_a_tupla(cancion):
 
 def _tupla_a_cancion(t):
     return Cancion(
-        str(t[0]),
+        t[0],
         _a_texto(t[1]),
         _a_texto(t[2]),
         _a_texto(t[3]),
         _a_texto(t[4]),
-        str(t[5]),
-        str(t[6]),
+        t[5],
+        t[6],
     )
 
-def guardar_binario(ruta, items):
-    items = list(items)
+def guardar_binario(ruta, catalogo):
+    """Escribe el header y los registros usando el iterador del catálogo."""
     with open(ruta, "wb") as archivo:
-        archivo.write(HEADER.pack(MAGIA, TEMA, len(items)))
-        for cancion in items:
-            archivo.write(FORMATO.pack(*_cancion_a_tupla(cancion)))
+        archivo.write(
+            HEADER.pack(MAGIA, TEMA, catalogo.tamanio())
+        )
+
+        for cancion in catalogo:
+            archivo.write(
+                FORMATO.pack(*_cancion_a_tupla(cancion))
+            )
 
 
 def cargar_binario(ruta):
@@ -78,13 +62,22 @@ def cargar_binario(ruta):
             raise ArchivoInvalidoError("Magia incorrecta: este archivo no es de este TP.")
         if tema != TEMA:
             raise ArchivoInvalidoError("El archivo no es de una biblioteca musical.")
-        canciones = []
+        
+        catalogo = ListaEnlazada()
+
         for _ in range(cantidad):
-            datos = archivo.read(FORMATO.size)
-            if len(datos) < FORMATO.size:
-                raise ArchivoInvalidoError("Binario truncado: faltan registros.")
-            canciones.append(_tupla_a_cancion(FORMATO.unpack(datos)))
-    return canciones
+            datos_registro = archivo.read(FORMATO.size)
+
+            if len(datos_registro) < FORMATO.size:
+                raise ArchivoInvalidoError(
+                    "Binario truncado: faltan registros."
+                )
+
+            catalogo.insertar_al_final(
+                _tupla_a_cancion(FORMATO.unpack(datos_registro))
+            )
+
+    return catalogo
 
 def actualizar_registro(ruta, posicion, item):
     """Pisa un registro por posición (acceso directo). posicion es 0-based."""
@@ -95,4 +88,39 @@ def actualizar_registro(ruta, posicion, item):
             raise ArchivoInvalidoError("Posición fuera del archivo.")
         archivo.seek(HEADER.size + posicion * FORMATO.size)
         archivo.write(FORMATO.pack(*_cancion_a_tupla(item)))
+
+def alta_binario(ruta, cancion):
+    """Agrega un registro al final y actualiza la cantidad del header."""
+    with open(ruta, "r+b") as archivo:
+        cabecera = archivo.read(HEADER.size)
+        magia, tema, cantidad = HEADER.unpack(cabecera)
+
+        archivo.seek(0, 2)
+        archivo.write(FORMATO.pack(*_cancion_a_tupla(cancion)))
+
+        archivo.seek(0)
+        archivo.write(HEADER.pack(magia, tema, cantidad + 1))
+
+
+def baja_binario(ruta, posicion):
+    """Quita un registro por posición y reescribe los restantes."""
+    with open(ruta, "r+b") as archivo:
+        cabecera = archivo.read(HEADER.size)
+        magia, tema, cantidad = HEADER.unpack(cabecera)
+        if posicion < 0 or posicion >= cantidad:
+            raise ArchivoInvalidoError("Posición fuera del archivo.")
+        registros = [
+            archivo.read(FORMATO.size)
+            for _ in range(cantidad)
+        ]
+
+        del registros[posicion]
+
+        archivo.seek(0)
+        archivo.truncate()
+
+        archivo.write(HEADER.pack(magia, tema, len(registros)))
+
+        for datos_registro in registros:
+            archivo.write(datos_registro)
 

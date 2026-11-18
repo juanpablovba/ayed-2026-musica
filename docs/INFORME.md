@@ -52,7 +52,7 @@ La llamada inicial agrega la canción con ID 62 a la lista de derivadas y devuel
 | Pila | `apilar`, `desapilar`, `ver_tope`, `esta_vacia` | La pila usa una `ListaEnlazada`. El tope siempre está en la cabeza de la lista, por lo que se respeta el orden LIFO. |
 | Cola | `encolar`, `desencolar`, `ver_frente`, `esta_vacia` | La cola usa una `ListaEnlazada`. El frente siempre está en la cabeza; los nuevos elementos se agregan al final, por lo que se respeta el orden FIFO. |
 
-- `ListaEnlazada` se usa internamente en `Playlist` para guardar canciones.
+- `ListaEnlazada` se usa en `CatalogoMusical` para almacenar el catálogo y en `Playlist` para guardar las canciones seleccionadas.
 - `Pila` se usa en `HistorialReproduccion`: cada canción escuchada se apila y la última puede deshacerse primero.
 - `Cola` se usa en `ColaReproduccion`: las canciones se agregan al final y se reproducen en el mismo orden en que fueron encoladas.
 - La `Playlist` tiene un tope máximo de seis canciones. Al intentar superar ese límite, lanza `ColeccionLlenaError`.
@@ -86,9 +86,73 @@ Con 50 veces más canciones, la búsqueda lineal tarda unas 55 veces más (crece
 
 ## 6. Persistencia (E5)
 
-- Layout del registro binario (campos, `struct`, anchos):
-- Header:
-- Cómo se actualiza un registro por posición:
+El catálogo se guarda en `data/catalogo.txt` y `data/catalogo.bin`.
+Las relaciones de versiones se leen desde `data/versiones.csv`.
+
+Al arrancar se carga `catalogo.txt`. Si todavía no existe, se utiliza
+`canciones.csv`. Después se guardan ambos formatos.
+
+### Texto simple
+
+Se utiliza UTF-8, con encabezado y un registro por línea.
+Los campos se separan por comas. Al cargar se valida que cada registro
+tenga la misma cantidad de campos que el encabezado.
+
+### Header binario
+
+Formato: `struct.Struct("<4s 1s I")`. Tamaño: 9 bytes.
+
+| Campo | Tipo | Tamaño | Contenido |
+| --- | --- | --- | --- |
+| Magia | 4s | 4 bytes | AYED |
+| Tema | 1s | 1 byte | M |
+| Cantidad | I | 4 bytes | Número de registros |
+
+### Registro binario
+
+Formato: `struct.Struct("<I 40s 40s 40s 15s 2H")`.
+Cada registro ocupa 143 bytes.
+
+| Campo | Tipo | Tamaño |
+| --- | --- | --- |
+| ID | I | 4 bytes |
+| Título | 40s | 40 bytes |
+| Artista | 40s | 40 bytes |
+| Álbum | 40s | 40 bytes |
+| Género | 15s | 15 bytes |
+| Año | H | 2 bytes |
+| Duración en segundos | H | 2 bytes |
+
+El prefijo `<` establece little endian y evita alineación automática.
+Las cadenas se codifican en UTF-8 y se recortan o rellenan con `\x00`
+hasta alcanzar el ancho fijo. El ingreso desde el ABM rechaza cadenas
+que excedan esos anchos.
+
+### Actualización y ABM persistente
+
+La posición se cuenta desde cero. El desplazamiento se calcula como:
+
+`HEADER.size + posicion * FORMATO.size`, equivalente a `9 + posicion * 143`.
+
+`actualizar_registro` abre con `r+b`, utiliza `seek` y escribe únicamente
+el registro elegido. Esa escritura es O(1), una vez conocida la posición.
+Buscar la posición por ID requiere O(n).
+
+El alta agrega al final y actualiza la cantidad del header.
+La baja reescribe el archivo sin el registro eliminado: O(n).
+Después de cada ABM se guarda el catálogo completo en texto.
+
+Después de cargar u ordenar se guardan ambos formatos, manteniendo
+el mismo orden en memoria y en el binario.
+
+### Archivos inválidos
+
+Se utiliza `ArchivoInvalidoError` para archivos inexistentes, cabeceras
+incompletas, magia o tema incorrectos, registros binarios incompletos
+y líneas de texto con una cantidad incorrecta de campos.
+
+El menú 9 captura la excepción, muestra el mensaje y conserva
+el catálogo anterior cuando falla una carga.
 
 ## 7. Reparto de trabajo (E6)
 

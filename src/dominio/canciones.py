@@ -22,7 +22,7 @@ catalogo = [
     Cancion(5, "Envuelto en llamas", "Los Gardelitos", "En tierra de sueños", "Rock", 2004, 230),
 ]
 
-def listar_catalogo():
-    """Muestra las canciones del catálogo."""
+def listar_catalogo(catalogo):
+    """Muestra las canciones del catálogo recibido."""
     for cancion in catalogo:
         print(cancion)

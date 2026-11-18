@@ -2,7 +2,7 @@
 
 Actualizar **en cada entrega**. Si no usaron IA, dejar una fila que lo diga. No declarar cuando sí se usó anula la entrega.
 
-Fecha de esta versión del archivo:
+Fecha de esta versión del archivo:s
 
 | Entrega | Fecha | Herramienta (ChatGPT, Cursor, Copilot, otra) | Para qué (diseño, código, debug, docs) | Qué pegaron o generaron | Qué reescribieron / revisaron a mano | Integrante |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -10,7 +10,7 @@ Fecha de esta versión del archivo:
 | E2 | 20/08/26 | OpenAI Codex | Código | class CatalogoMusical | Esa clase en particular | Juan Pablo Villalba |
 | E3 | 03/10/26 | OpenAI Codex | Código | cola_reproduccion.py, historial_reproduccion.py, playlist.py, menúes en main.py | Revisado y probado | Juan Pablo Villalba |
 | E4 | 29/10/26 | Anthropic Claude | Explicaciones y guía de código | Me explicó los conceptos de búsqueda.py, ordenamiento.py, medicion.py y las opciones 3 y 4 de main.py. Me ayudó puntualmente con time.perf_counter y algunos comandos de Git | Revisado y probado con ejemplos propuestos por Claude | Camila Rondon |
-| E5 |  |  |  |  |  |  |
+| E5 | 2026-11-17 | OpenAI Codex | Propuestas de código, depuración, pruebas y documentación | Bloques de persistencia de texto y binario, adaptación del dominio, listado, ABM y sincronización de archivos | Integración manual y ejecución de las pruebas propuestas de texto, binario y ABM | Juan Pablo Villalba |
 | E6 |  |  |  |  |  |  |
 
 Compromiso: cualquiera del grupo puede explicar cualquier archivo del tag.
