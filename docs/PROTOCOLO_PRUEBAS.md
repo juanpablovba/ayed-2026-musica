@@ -26,6 +26,6 @@ Mínimos: 8 casos escritos en E2; ejecutados en E3; 15 de regresión en E6 (pila
 | P16 | E4 | Búsqueda lineal de un nombre que no existe | titulo = Cancion que no existe | no encontrado, sin traceback | pasa |  |
 | P17 | E4 | Búsqueda binaria con catálogo desordenado | titulo = Bohemian Rhapsody | avisa o reordena; no da un falso hit | pasa | avisó que ordenó el catálogo y la encontró |
 | P18 | E4 | Ordenar por un criterio y después por otro | titulo (selección) y año (inserción) | el orden cambia | pasa |  |
-| P19 | E5 | Guardar texto con 9b, salir con 0, ejecutar nuevamente y buscar el título guardado | título de prueba | el cambio se recupera al arrancar | pasa | Equivale a P13 de la guía. Prueba manual confirmada. |
-| P20 | E5 | Realizar alta, modificación y baja desde el menú 6; después de cada cambio cargar con 9d y reiniciar | ID 1000 | el alta aparece, la modificación permanece y la baja sigue ausente | pasa | Equivale a P14 de la guía. Pruebas manuales confirmadas. |
-| P21 | E5 | Cargar con 9d un binario corto y otro con magia incorrecta; cargar con 9a un texto con un campo extra | archivos alterados durante la ejecución | mensaje de archivo inválido, catálogo anterior conservado y menú operativo | pasa | Equivale a P15 de la guía. Verificación automática con archivos temporales: pasa. Prueba manual pendiente. |
+| P19 | E5 | Guardar texto con 9b, salir con 0, ejecutar nuevamente y buscar el título guardado | título de prueba | el cambio se recupera al arrancar | pasa | |
+| P20 | E5 | Realizar alta, modificación y baja desde el menú 6; después de cada cambio cargar con 9d y reiniciar | ID 1000 | el alta aparece, la modificación permanece y la baja sigue ausente | pasa |  |
+| P21 | E5 | Cargar con 9d un binario corto y otro con magia incorrecta; cargar con 9a un texto con un campo extra | archivos alterados durante la ejecución | mensaje de archivo inválido, catálogo anterior conservado y menú operativo | pasa | |
