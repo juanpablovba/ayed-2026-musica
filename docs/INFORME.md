@@ -1,32 +1,27 @@
 # Informe del TP
 
-Completar y hacer crecer en cada entrega. No hace falta prosa larga: oraciones claras y tablas.
-
 ## 1. Grupo y tema
 
 - Tema: Biblioteca musical
-- Por qué lo eligieron (5–8 líneas): Decidimos elegir la biblioteca musical como tema a desarrollar porque nos permitirá trabajar de manera clara los conceptos vistos en clase. La recursión, las pilas, las colas, la búsqueda y el ordenamiento podrán aplicarse dentro de un sistema de canciones, playlist y listas de reproducción. Al tratarse de un espacio de uso cotidiano, nos resulta más fácil imaginar casos de uso y nuevas funcionalidades para el sistema.
+- Desarrollo realizado por: Camila Rondon y Juan Pablo Villalba.
+- Decidimos elegir la biblioteca musical como tema a desarrollar porque nos permitirá trabajar de manera clara los conceptos vistos en clase. La recursión, las pilas, las colas, la búsqueda y el ordenamiento podrán aplicarse dentro de un sistema de canciones, playlist y listas de reproducción. Al tratarse de un espacio de uso cotidiano, nos resulta más fácil imaginar casos de uso y nuevas funcionalidades para el sistema.
 
 ## 2. Modelo
 
-Qué es un ítem del catálogo. Qué es mutable y qué no (E1). Cómo se relacionan catálogo, colección principal, pila y cola.
-
-```text
 Un ítem del catálogo es una canción. Cada canción se representa por la clase 'Cancion', la cual contiene los siguientes atributos: id, titulo, artista, album, genero, anio y duracion en segundos.
-Aún no está decidido con certeza la mutabilidad/inmutabilidad de los objetos.
-```
+La clase Cancion es mutable: el ABM modifica título, artista, álbum, género, año y duración, manteniendo el ID estable. Las cadenas y los enteros son inmutables; cambiar un atributo reasigna su valor. Las colecciones utilizadas, como listas y diccionarios, son mutables.
 
 ## 3. Recursión (E2)
 
 Traza de un ejemplo real:
 
 Llamada inicial: listar_versiones(1)
-La canción con ID 1 es "De Musica Ligera"
+La canción con ID 1 es "De Música Ligera"
 
 Se buscar el ID 1 en versiones_por_origen
 Se encuentra una versión:
-    - cancion_id = "62"
-    - version_de_id = "1"
+    - cancion_id = 62
+    - version_de_id = 1
     - tipo: "live"
 
 Se muestra:
@@ -156,6 +151,9 @@ el catálogo anterior cuando falla una carga.
 
 ## 7. Reparto de trabajo (E6)
 
-| Integrante | Qué hizo | Qué puede defender |
-| --- | --- | --- |
-|  |  |  |
+El desarrollo fue realizado por Camila Rondon y Juan Pablo Villalba.
+
+| Integrante | Aportes |
+| --- | --- |
+| Camila Rondon | Búsquedas, ordenamientos, mediciones, protocolo de pruebas y primeras implementaciones de persistencia de texto y binario. |
+| Juan Pablo Villalba | Modelo y recursión, integración de los TADs, playlist, historial, cola, ABM persistente y revisión de documentación. |

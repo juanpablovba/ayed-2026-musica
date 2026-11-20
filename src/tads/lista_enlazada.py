@@ -28,7 +28,24 @@ class ListaEnlazada:
         self._tamanio += 1
 
     def insertar_ordenado(self, dato, clave):
-        raise NotImplementedError("El método insertar_ordenado no está implementado.")
+        """Inserta en una lista que ya está ordenada según la clave."""
+        nuevo_nodo = Nodo(dato)
+        clave_dato = clave(dato)
+
+        if self.esta_vacia() or clave_dato < clave(self._cabeza.dato):
+            nuevo_nodo.siguiente = self._cabeza
+            self._cabeza = nuevo_nodo
+        else:
+            nodo_actual = self._cabeza
+
+            while (nodo_actual.siguiente is not None
+                   and clave(nodo_actual.siguiente.dato) <= clave_dato):
+                nodo_actual = nodo_actual.siguiente
+
+            nuevo_nodo.siguiente = nodo_actual.siguiente
+            nodo_actual.siguiente = nuevo_nodo
+
+        self._tamanio += 1
 
     def eliminar(self, dato):
         """Elimina la primera aparición del dato, si existe."""

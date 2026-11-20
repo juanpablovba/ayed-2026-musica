@@ -31,9 +31,6 @@ TEMAS = {
 
 ENCABEZADOS = ["id", "titulo", "artista", "album", "genero", "anio", "duracion_seg"]
 
-def pendiente():
-    print("Todavía no está implementado. Completar en la entrega que corresponde.")
-
 def mostrar_menu():
     """Muestra las opciones disponibles del menú principal."""
     nombre = TEMAS.get(TEMA, TEMA or "(sin tema)")
@@ -52,13 +49,17 @@ def mostrar_menu():
 
 def obtener_cancion(catalogo):
     """Solicita un ID y devuelve la canción, o None si no es válida."""
-    cancion_id = input("Ingrese el ID de la canción: ").strip()
-    if not cancion_id.isdigit():
-        print("ID inválido. Debe ser un número.")
+    try:
+        cancion_id = int(input("Ingrese el ID de la canción: ").strip())
+    except ValueError:
+        print("ID inválido. Debe ser un número entero.")
         return None
-    cancion = catalogo.obtener_cancion(int(cancion_id))
+
+    cancion = catalogo.obtener_cancion(cancion_id)
+
     if cancion is None:
         print(f"No se encontró la canción con ID {cancion_id}.")
+
     return cancion
 
 def clave_titulo(cancion):
@@ -70,7 +71,6 @@ CRITERIOS_ORDEN = {
     "3": ("año", lambda cancion: int(cancion.anio)),
     "4": ("duración", lambda cancion: int(cancion.duracion)),
 }
-
 
 def menu_buscar(canciones, orden_actual):
     print()
@@ -105,7 +105,6 @@ def mostrar_canciones(canciones, limite=10):
         print(cancion)
     if len(canciones) > limite:
         print(f"... (se muestran {limite} de {len(canciones)})")
-
 
 def menu_ordenar(canciones, orden_actual):
     print()
@@ -282,21 +281,17 @@ def reconstruir_catalogo(catalogo, canciones):
     nuevo_catalogo.versiones_por_origen = catalogo.versiones_por_origen
     return nuevo_catalogo
 
-
 def guardar_todo(catalogo, ruta_txt, ruta_bin):
     """Guarda el mismo catálogo en texto y binario."""
     guardar_texto(ruta_txt, filas_del_catalogo(catalogo), ENCABEZADOS)
     guardar_binario(ruta_bin, catalogo)
-
 
 def posicion_del_id(catalogo, id_buscado):
     """Devuelve la posición del registro, contando desde cero."""
     for posicion, cancion in enumerate(catalogo):
         if cancion.id == id_buscado:
             return posicion
-
     raise ItemNoEncontradoError(f"No hay canción con ID {id_buscado}.")
-
 
 def pedir_datos_cancion(cancion_anterior=None):
     def leer_texto(nombre, valor_actual, ancho):
@@ -505,7 +500,9 @@ def main():
             orden_actual = None
 
         elif opcion == "2":
-            pendiente()
+            cancion = obtener_cancion(catalogo)
+            if cancion is not None:
+                print(cancion)
 
         else:
             print("Opción inválida.")

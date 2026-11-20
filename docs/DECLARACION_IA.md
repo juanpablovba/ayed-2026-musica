@@ -2,7 +2,7 @@
 
 Actualizar **en cada entrega**. Si no usaron IA, dejar una fila que lo diga. No declarar cuando sí se usó anula la entrega.
 
-Fecha de esta versión del archivo:s
+Fecha de esta versión del archivo: 2026-11-19
 
 | Entrega | Fecha | Herramienta (ChatGPT, Cursor, Copilot, otra) | Para qué (diseño, código, debug, docs) | Qué pegaron o generaron | Qué reescribieron / revisaron a mano | Integrante |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -11,6 +11,6 @@ Fecha de esta versión del archivo:s
 | E3 | 03/10/26 | OpenAI Codex | Código | cola_reproduccion.py, historial_reproduccion.py, playlist.py, menúes en main.py | Revisado y probado | Juan Pablo Villalba |
 | E4 | 29/10/26 | Anthropic Claude | Explicaciones y guía de código | Me explicó los conceptos de búsqueda.py, ordenamiento.py, medicion.py y las opciones 3 y 4 de main.py. Me ayudó puntualmente con time.perf_counter y algunos comandos de Git | Revisado y probado con ejemplos propuestos por Claude | Camila Rondon |
 | E5 | 2026-11-17 | OpenAI Codex | Propuestas de código, depuración, pruebas y documentación | Bloques de persistencia de texto y binario, adaptación del dominio, listado, ABM y sincronización de archivos | Integración manual y ejecución de las pruebas propuestas de texto, binario y ABM | Juan Pablo Villalba |
-| E6 |  |  |  |  |  |  |
+| E6 | 2026-11-19 | OpenAI Codex | Revisión del cierre, propuestas de código y pruebas | Detalle por ID, validación de entradas, insertar_ordenado | Integración manual y ejecución de los 21 casos del protocolo de regresión: todos pasan. | Juan Pablo Villalba |
 
 Compromiso: cualquiera del grupo puede explicar cualquier archivo del tag.
